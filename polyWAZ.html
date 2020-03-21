@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>ENN WaST Cohort Study : WAZ calculator</title>
+<script language="JavaScript">
+//
+// DESCRIPTION : WAZ calculator based on polyniomial regression coefficients
+//               from WHO Growth Standards
+//
+// AUTHOR      : Mark Myatt, Brixton Health
+//
+// CREATED     : 20th March 2020
+// REVISION    : Revision: 0.10
+// DATE        : 20th March 2020
+//
+// LICENSE     : GPL v3 (or later)
+// COPYRIGHT   : Emergency Nutrition Network (c) 2020
+//
+// This file contains free software.  You may redistribute it and / or modify it
+// under the terms of the  GNU  General  Public  License (version 3 or later) as
+// published by the Free Software Foundation:
+//
+//   http://www.gnu.org/licenses/gpl.html
+//
+// This file is distributed in the hope that it will be useful,  but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// ANY PARTICULAR PURPOSE. See the GNU General Public License for more details.
+//
+
+function Check4Digit(aTextBox)
+  {
+  var userInput = aTextBox.value;
+  if(isNaN(userInput))
+	  {
+    var correctedUserInput = userInput.substring(0, (userInput.length - 1))
+    aTextBox.value = correctedUserInput;
+    }
+  }
+
+function GoCalculate()
+  {
+  var weight = document.wazData.weight.value;
+  var ageMonths = document.wazData.age.value;
+  for (var i = 0; i < document.wazData.sex.length; i++)
+    {
+    if (document.wazData.sex[i].checked) {
+      var sex = document.wazData.sex[i].value;
+      }
+    }
+  if (sex == 1) {
+  	var referenceMedian = 4.977587e+00 + 6.850076e-01 * ageMonths - 4.140006e-02 * ageMonths ** 2 + 1.861115e-03 * ageMonths ** 3 - 4.557401e-05 * ageMonths ** 4 + 5.633279e-07 * ageMonths ** 5 - 2.746621e-09 * ageMonths ** 6
+		var lowerSD =         4.715876e-01 + 6.516336e-02 * ageMonths - 4.267320e-03 * ageMonths ** 2 + 2.070666e-04 * ageMonths ** 3 - 5.196451e-06 * ageMonths ** 4 + 6.479001e-08 * ageMonths ** 5 - 3.173980e-10 * ageMonths ** 6
+		var upperSD =         6.616327e-01 + 7.466573e-02 * ageMonths - 3.956540e-03 * ageMonths ** 2 + 1.914075e-04 * ageMonths ** 3 - 4.684480e-06 * ageMonths ** 4 + 5.667014e-08 * ageMonths ** 5 - 2.660587e-10 * ageMonths ** 6
+  	}
+	if(sex == 2) {
+	  var referenceMedian = 4.589059e+00 + 6.135219e-01 * ageMonths - 3.509681e-02 * ageMonths ** 2 + 1.569346e-03 * ageMonths ** 3 - 3.784446e-05 * ageMonths ** 4 + 4.607875e-07 * ageMonths ** 5 - 2.222577e-09 * ageMonths ** 6
+	  var lowerSD =         4.366394e-01 + 6.709415e-02 * ageMonths - 4.060771e-03 * ageMonths ** 2 + 1.767080e-04 * ageMonths ** 3 - 4.090310e-06 * ageMonths ** 4 + 4.921072e-08 * ageMonths ** 5 - 2.408582e-10 * ageMonths ** 6
+	  var upperSD =         6.281990e-01 + 1.051817e-01 * ageMonths - 5.260342e-03 * ageMonths ** 2 + 1.927602e-04 * ageMonths ** 3 - 3.660493e-06 * ageMonths ** 4 + 3.792593e-08 * ageMonths ** 5 - 1.696616e-10 * ageMonths ** 6
+	  }
+  if(weight < referenceMedian) {
+  	var z = (weight - referenceMedian) / lowerSD;
+  	} else {
+		var z = (weight - referenceMedian) / upperSD;
+		}
+	document.wazData.waz.value = z.toFixed(2);
+	}
+
+function startOver()
+ {
+ document.wazData.weight.value = "";
+ document.wazData.age.value = "";
+ document.wazData.waz.value = "";
+ document.wazData.weight.focus();
+ }
+</script>
+
+</head>
+<body>
+<font face="verdana, arial, helvetica">
+<center>
+<br>
+<p><b>ENN WaST Cohort Study : WAZ calculator</b></p>
+<form name="wazData">
+<table width=80% border=0 cellpadding=8 cellspacing=3>
+<tr>
+<td width=40%><p align = "right">Weight :</p></td>
+<td width=20%><center><input type="text" name=weight autofocus value = "" onkeyup="Check4Digit(this)"></center></td>
+<td width=40%><p align = "left">kilograms</p></td>
+</tr>
+<tr>
+<td width=40%><p align = "right">Age :</p></td>
+<td width=20%><center><input type="text" name=age value = "" onkeyup="Check4Digit(this)"></center></td>
+<td width=40%><p align = "left">months</p></td>
+</tr>
+<tr>
+<td width=40%><p align = "right">Specify sex of the child</p></td>
+<td width=30%><center><font size="1"><input type="radio" name="sex" value="1" checked>Male &nbsp &nbsp <input type="radio" name="sex" value="2">Female</font></center></td>
+<td width=40%><p align = "left"></p></td>
+</tr>
+<tr>
+<td width=40%></td>
+<td width=20%></td>
+<td width=40%></td>
+</tr>
+<tr>
+<td width=40%></td>
+<td width=20%><center><input type=button value=" Calculate WAZ " onClick="GoCalculate()"></center></td>
+<td width=40%></td>
+</tr>
+<tr>
+<td width=40%></td>
+<td width=20%></td>
+<td width=40%></td>
+</tr>
+<tr>
+<td width=40%><p align = "right">WAZ :</p></td>
+<td width=20%><center><input type="text" name=waz value="" readonly style = "color:red"></center></td>
+<td width=40%></td>
+</tr>
+<tr>
+<td width=40%></td>
+<td width=20%></td>
+<td width=40%></td>
+</tr>
+<tr>
+<td width=40%></td>
+<td width=20%><center><input type=button value=" Clear " onClick="startOver()"></center></td>
+<td width=40%></td>
+</tr>
+</table>
+</form>
+</center>
+</font>
+</body>
+</html>
