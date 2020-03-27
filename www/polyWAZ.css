@@ -18,7 +18,7 @@
 	  }
 
   input[type=radio] {
-      /* -webkit-transform: scale(2);   /* scale(4); */      
+      -webkit-transform: scale(2);   /* scale(4); */      
       vertical-align: middle;
   }
 
