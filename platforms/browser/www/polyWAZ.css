@@ -1,3 +1,5 @@
+/* Portrait layout */
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
   body {
     font-family: Helvetica;
@@ -41,6 +43,8 @@
     cursor: pointer;
   }
 }
+
+/* Landscape layout (with min-width) */
 
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
   body {
