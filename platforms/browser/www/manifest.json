@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "polyWAZ",
+  "short_name": "polyWAZ",
+  "version": "com.brixtonhealth.polyWAZ",
+  "description": "A simple WAZ calculator",
+  "author": "Mark Myatt",
+  "icons": [],
+  "start_url": "index.html"
+}
