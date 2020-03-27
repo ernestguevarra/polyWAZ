@@ -1,0 +1,41 @@
+body {
+  font-family: Helvetica;
+  }
+
+td {
+  font-size: 36px;
+  }
+
+h1 {
+  font-size: 64px;
+  font-weight: bold;
+  background-color: grey;
+  color: white;
+  font-family: Helvetica;
+  text-align: center;
+  border-bottom: 2px solid darkgrey;
+	}
+
+input[type=radio] {
+    -webkit-transform: scale(4);
+    vertical-align: middle;
+}
+
+input[type=text]
+{
+    font-size: 48px;
+}
+
+.prodMe {
+  background-color: #4CAF50;
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 56px;
+  font-weight: bold;
+  margin: 4px 2px;
+  cursor: pointer;
+}

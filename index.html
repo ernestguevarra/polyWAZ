@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" type = "text/css" href = "polyWAZ.css" />
+<meta name="viewport" content="width=device-width, height = device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale = 1, user-scalable=no" />
+<title>ENN WAZ calculator</title>
+<script language="JavaScript">
+//
+// DESCRIPTION : WAZ calculator based on polyniomial regression coefficients
+//               from WHO Growth Standards
+//
+// AUTHOR      : Mark Myatt, Brixton Health
+//
+// CREATED     : 20th March 2020
+// REVISION    : Revision: 0.10
+// DATE        : 20th March 2020
+//
+// LICENSE     : GPL v3 (or later)
+// COPYRIGHT   : Emergency Nutrition Network (c) 2020
+//
+// This file contains free software.  You may redistribute it and / or modify it
+// under the terms of the  GNU  General  Public  License (version 3 or later) as
+// published by the Free Software Foundation:
+//
+//   http://www.gnu.org/licenses/gpl.html
+//
+// This file is distributed in the hope that it will be useful,  but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+// ANY PARTICULAR PURPOSE. See the GNU General Public License for more details.
+//
+
+function Check4Digit(aTextBox)
+  {
+  var userInput = aTextBox.value;
+  if(isNaN(userInput))
+	  {
+    var correctedUserInput = userInput.substring(0, (userInput.length - 1))
+    aTextBox.value = correctedUserInput;
+    }
+  }
+
+function GoCalculate()
+  {
+  var weight = document.wazData.weight.value;
+  var ageMonths = document.wazData.age.value;
+  for (var i = 0; i < document.wazData.sex.length; i++)
+    {
+    if (document.wazData.sex[i].checked) {
+      var sex = document.wazData.sex[i].value;
+      }
+    }
+  if (sex == 1) {
+  	var referenceMedian = 4.977587e+00 + 6.850076e-01 * ageMonths - 4.140006e-02 * ageMonths ** 2 + 1.861115e-03 * ageMonths ** 3 - 4.557401e-05 * ageMonths ** 4 + 5.633279e-07 * ageMonths ** 5 - 2.746621e-09 * ageMonths ** 6
+		var lowerSD =         4.715876e-01 + 6.516336e-02 * ageMonths - 4.267320e-03 * ageMonths ** 2 + 2.070666e-04 * ageMonths ** 3 - 5.196451e-06 * ageMonths ** 4 + 6.479001e-08 * ageMonths ** 5 - 3.173980e-10 * ageMonths ** 6
+		var upperSD =         6.616327e-01 + 7.466573e-02 * ageMonths - 3.956540e-03 * ageMonths ** 2 + 1.914075e-04 * ageMonths ** 3 - 4.684480e-06 * ageMonths ** 4 + 5.667014e-08 * ageMonths ** 5 - 2.660587e-10 * ageMonths ** 6
+  	}
+	if(sex == 2) {
+	  var referenceMedian = 4.589059e+00 + 6.135219e-01 * ageMonths - 3.509681e-02 * ageMonths ** 2 + 1.569346e-03 * ageMonths ** 3 - 3.784446e-05 * ageMonths ** 4 + 4.607875e-07 * ageMonths ** 5 - 2.222577e-09 * ageMonths ** 6
+	  var lowerSD =         4.366394e-01 + 6.709415e-02 * ageMonths - 4.060771e-03 * ageMonths ** 2 + 1.767080e-04 * ageMonths ** 3 - 4.090310e-06 * ageMonths ** 4 + 4.921072e-08 * ageMonths ** 5 - 2.408582e-10 * ageMonths ** 6
+	  var upperSD =         6.281990e-01 + 1.051817e-01 * ageMonths - 5.260342e-03 * ageMonths ** 2 + 1.927602e-04 * ageMonths ** 3 - 3.660493e-06 * ageMonths ** 4 + 3.792593e-08 * ageMonths ** 5 - 1.696616e-10 * ageMonths ** 6
+	  }
+  if(weight < referenceMedian) {
+  	var z = (weight - referenceMedian) / lowerSD;
+  	} else {
+		var z = (weight - referenceMedian) / upperSD;
+		}
+    document.wazData.waz.value = "WAZ = " + z.toFixed(2);
+  if (ageMonths < 6 | ageMonths > 59) {
+    var msgText = "Age not 6 - 59 months.\nNot eligible for study or CMAM.";
+    alert(msgText);
+    document.wazData.age.focus();
+    }
+  if (ageMonths >= 6 & weight < 3.5) {
+    var msgText = "Weight ("+ weight + " kg) is below 3.5 kg.\nRefer child to CMAM/SC.";
+    window.alert(msgText);
+    document.wazData.weight.focus();
+    }
+  if (z < -6) {
+    var msgText = "Extreme WAZ value (WAZ = " + z.toFixed(2) +").\nCheck weight and age.";
+    window.alert(msgText);
+    document.wazData.weight.focus();
+    }
+  if (z > 5) {
+    var msgText = "Extreme WAZ value (WAZ = " + z.toFixed(2) +").\nCheck weight and age.";
+    window.alert(msgText);
+    document.wazData.weight.focus();
+    }
+  }
+
+function startOver()
+ {
+ document.wazData.weight.value = "";
+ document.wazData.age.value = "";
+ document.wazData.waz.value = "";
+ document.wazData.weight.focus();
+ }
+</script>
+</head>
+<body>
+<center>
+<h1>WAZ calculator</h1>
+<form name="wazData">
+<table width=80% border=0 cellpadding=8 cellspacing=3>
+<tr><td width=100%><center><input type="text" inputmode="numeric" name=weight autofocus value = "" size = 12 placeholder = "Weight (kg)" onkeyup="Check4Digit(this)"></center></td></tr>
+<tr><td width=100%><center><input type="text" inputmode="numeric" name=age value = "" size = 12 placeholder = "Age (months)" onkeyup="Check4Digit(this)"></center></td></tr>
+<tr><td width=100%><br><center><input type="radio" name="sex" value="1" checked>&nbsp &nbsp Male &nbsp &nbsp <input type="radio" name="sex" value="2">&nbsp &nbsp Female</center></td></tr>
+<tr><td width=100%></td></tr>
+<tr><td width=100%><center><input type=button class="prodMe" value="Calculate WAZ" onClick="GoCalculate()"></center></td></tr>
+<tr><td width=100%></td></tr>
+<tr><td width=100%><center><input type="text" name=waz value="" readonly style = "color:red" size = 12></center></td></tr>
+<tr><td width=100%></td></tr>
+<tr><td width=100%><center><input type=button class="prodMe" value=" Clear " onClick="startOver()"></center></td></tr>
+</table>
+</form>
+</center>
+</body>
+</html>

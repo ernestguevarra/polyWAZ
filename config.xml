@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/"
+    id          = "com.brixtonhealth.polyWAZ"
+    version     = "1.0.0" >
+
+<name>polyWAZ</name>
+
+<description>A simple WAZ calculator</description>
+
+<author>Mark Myatt</author>
+
+<platform name="android" />
+
+</widget>
